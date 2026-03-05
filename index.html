@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shehan Ranasingha | Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ── RESET & TOKENS ─────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #06060e;
+            --sidebar: #09091a;
+            --gold: #f0b429;
+            --gold-dim: #b87d1a;
+            --blue: #38bdf8;
+            --blue2: #0369a1;
+            --crimson: #ef4444;
+            --crimson2: #b91c1c;
+            /* legacy aliases so existing rules still work */
+            --violet: #38bdf8;
+            --violet2: #0369a1;
+            --text: #eaeaf4;
+            --muted: #7a7a9a;
+            --glass: rgba(255, 255, 255, 0.04);
+            --line: rgba(255, 255, 255, 0.07);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── NEBULA BLOBS ───────────────────────────────── */
+        .nebula {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.18;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+
+        .blob1 {
+            width: 600px;
+            height: 600px;
+            background: #0369a1;
+            top: -120px;
+            left: -180px;
+            animation-delay: 0s;
+        }
+
+        .blob2 {
+            width: 500px;
+            height: 500px;
+            background: #b91c1c;
+            bottom: -80px;
+            right: -100px;
+            animation-delay: -6s;
+        }
+
+        .blob3 {
+            width: 400px;
+            height: 400px;
+            background: #f0b429;
+            top: 40%;
+            left: 40%;
+            animation-delay: -12s;
+            opacity: 0.08;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(60px, 40px) scale(1.15);
+            }
+        }
+
+        /* ── PARTICLE CANVAS ────────────────────────────── */
+        #dust {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── LAYOUT ─────────────────────────────────────── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 320px;
+            z-index: 10;
+            background: rgba(11, 11, 30, 0.85);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 3rem 2rem 2rem;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .main {
+            margin-left: 320px;
+            flex: 1;
+            padding: 4rem 3rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* ── PROFILE PHOTO ──────────────────────────────── */
+        .avatar-wrap {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1.8rem;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold), var(--crimson), var(--blue), var(--gold));
+            animation: spin 5s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .avatar-inner {
+            position: relative;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--bg);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
+        }
+
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(240, 180, 41, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        /* ── SIDEBAR TEXT ───────────────────────────────── */
+        .sidebar-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(90deg, var(--gold), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.4rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--muted);
+            text-align: center;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem 0;
+        }
+
+        /* ── CONTACT ITEMS (sidebar) ────────────────────── */
+        .contact-list {
+            width: 100%;
+            list-style: none;
+        }
+
+        .contact-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .contact-list .icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(240, 180, 41, 0.1);
+            border: 1px solid rgba(240, 180, 41, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .contact-list span {
+            padding-top: 4px;
+        }
+
+
+        /* ── MAIN CONTENT ───────────────────────────────── */
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-heading-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(240, 180, 41, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(240, 180, 41, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .section-heading h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .section-heading h2 span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 2px;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(240, 180, 41, 0.3), transparent);
+        }
+
+        /* ── GLASS CARD ─────────────────────────────────── */
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: radial-gradient(ellipse at top left, rgba(240, 180, 41, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            border-color: rgba(240, 180, 41, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.08);
+        }
+
+        .card+.card {
+            margin-top: 1.5rem;
+        }
+
+        /* ── TIMELINE ───────────────────────────────────── */
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), var(--crimson), var(--blue), transparent);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.5rem;
+            top: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--crimson), var(--gold));
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.55);
+        }
+
+        .timeline-date {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--gold);
+            text-transform: uppercase;
+            background: rgba(240, 180, 41, 0.08);
+            border: 1px solid rgba(240, 180, 41, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            margin-bottom: 0.6rem;
+        }
+
+        .timeline-role {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-company {
+            font-size: 0.85rem;
+            color: var(--blue);
+            font-weight: 500;
+            margin-bottom: 0.7rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        /* ── SUMMARY CARD ───────────────────────────────── */
+        .summary-text {
+            font-size: 0.92rem;
+            color: var(--muted);
+            line-height: 1.9;
+            font-style: italic;
+        }
+
+        .summary-text::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--crimson);
+            opacity: 0.5;
+            line-height: 0;
+            vertical-align: -1rem;
+            margin-right: 0.2rem;
+        }
+
+        /* ── QUALIF TABLE ───────────────────────────────── */
+        .qual-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.6rem 1.5rem;
+            align-items: start;
+        }
+
+        .qual-subject {
+            font-size: 0.85rem;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .qual-grade {
+            font-size: 0.85rem;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .grade-s {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .grade-b {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .grade-c {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .edu-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--violet);
+            font-weight: 600;
+            margin: 1.2rem 0 0.8rem;
+        }
+
+        .edu-label:first-child {
+            margin-top: 0;
+        }
+
+        .school-name {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ── TECH TAGS ──────────────────────────────────── */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.35rem 0.9rem;
+            border-radius: 99px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--blue);
+            background: rgba(56, 189, 248, 0.07);
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        }
+
+        .tag:hover {
+            background: rgba(56, 189, 248, 0.18);
+            border-color: var(--blue);
+            transform: translateY(-2px);
+        }
+
+        .tag.gold {
+            border-color: rgba(240, 180, 41, 0.3);
+            color: var(--gold);
+            background: rgba(240, 180, 41, 0.07);
+        }
+
+        .tag.gold:hover {
+            background: rgba(240, 180, 41, 0.18);
+            border-color: var(--gold);
+        }
+
+        /* ── LANGUAGES ──────────────────────────────────── */
+        .lang-list {
+            width: 100%;
+            list-style: none;
+        }
+
+        .lang-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text);
+            margin-bottom: 0.9rem;
+        }
+
+        .lang-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 1px solid rgba(240, 180, 41, 0.35);
+            background: transparent;
+            transition: background 0.3s;
+        }
+
+        .dot.filled {
+            background: linear-gradient(135deg, var(--crimson), var(--blue));
+            border-color: transparent;
+        }
+
+        /* ── SOCIAL LINKS ────────────────────────────────── */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            background: var(--glass);
+            border: 1px solid var(--line);
+            text-decoration: none;
+            transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .social-link:hover {
+            border-color: rgba(240, 180, 41, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .social-icon.fb {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+
+        .social-icon.email {
+            background: rgba(240, 180, 41, 0.12);
+            border: 1px solid rgba(240, 180, 41, 0.25);
+        }
+
+
+        .social-icon.wa {
+            background: rgba(37, 211, 102, 0.12);
+            border: 1px solid rgba(37, 211, 102, 0.25);
+        }
+
+        .social-text-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .social-text-value {
+            font-size: 0.82rem;
+            color: var(--text);
+            font-weight: 500;
+            margin-top: 1px;
+            word-break: break-all;
+        }
+
+        /* ── RESPONSIVE ─────────────────────────────────── */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+                padding: 2.5rem 1.5rem 2rem;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        /* ── PAGE HEADER (hero top of right panel) ──────── */
+        .hero {
+            margin-bottom: 3.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero-eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-name {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-name .line1 {
+            color: var(--text);
+        }
+
+        .hero-name .line2 {
+            background: linear-gradient(90deg, var(--gold), var(--crimson), var(--blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        .hero-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1.5rem;
+        }
+
+        .chip {
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--line);
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- background layers -->
+    <div class="nebula">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+    <canvas id="dust"></canvas>
+
+    <!-- ═══════════════ SIDEBAR ═════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- avatar -->
+        <div class="avatar-wrap">
+            <div class="avatar-ring"></div>
+            <div class="avatar-inner">
+                <img src="photo.png" alt="Shehan Ranasingha"
+                    onerror="this.style.display='none'; document.getElementById('avatar-ph').style.display='flex';" />
+                <div class="avatar-placeholder" id="avatar-ph" style="display:none;">🧑‍💻</div>
+            </div>
+        </div>
+
+        <div class="sidebar-name">Shehan Ranasingha</div>
+        <div class="sidebar-title">Digital Embroidery<br>Designer & Digitizer</div>
+
+        <div class="divider"></div>
+
+        <!-- contact -->
+        <ul class="contact-list">
+            <li><span class="icon">📍</span><span>No 79, Convet Road, Bolawalana, Negombo</span></li>
+            <li><span class="icon">📱</span><span>077-1519386<br>031-2239622</span></li>
+            <li><span class="icon">✉️</span><span>Shehan00007777@gmail.com</span></li>
+            <li><span class="icon">🎂</span><span>28 December 1996</span></li>
+        </ul>
+
+
+
+
+        <!-- Languages -->
+        <div class="skill-section-title">Languages</div>
+        <ul class="lang-list">
+            <li class="lang-item">
+                <span>Sinhala</span>
+                <div class="lang-dots">
+                    <span class="dot filled"></span><span class="dot filled"></span><span
+                        class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+                </div>
+            </li>
+            <li class="lang-item">
+                <span>English</span>
+                <div class="lang-dots">
+                    <span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span
+                        class="dot"></span><span class="dot"></span>
+                </div>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ═══════════════ MAIN CONTENT ════════════════════ -->
+    <main class="main">
+
+        <!-- Hero -->
+        <div class="hero">
+
+            <div class="hero-name">
+                <div class="line1">Shehan</div>
+                <div class="line2">Ranasingha</div>
+            </div>
+            <p class="hero-subtitle">
+                Specialized in transforming complex artwork into production-ready embroidery patterns
+                with precision, creativity, and a passion for digital craftsmanship.
+            </p>
+
+        </div>
+
+        <!-- Summary -->
+        <div class="section">
+            <div class="section-heading">
+                <div class="section-heading-icon">📋</div>
+                <h2>Summary<span>About Me</span></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="card float-card">
+                <p class="summary-text">
+                    A dedicated and results-driven Embroidery Designer & Digitizer with over 6 years
+                    of hands-on experience in the commercial embroidery industry. Highly proficient in
+                    Wilcom EmbroideryStudio e4.2 for precision digitizing, stitch path engineering, and
+                    production-ready design output. Experienced operator of Tajima, Barudan, and Singer
+                    embroidery machines, with a strong eye for quality and craftsmanship. Known for delivering
+                    accurate, high-quality embroidery files that meet professional production standards.
+                </p>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="section">
+            <div class="section-heading">
+                <div class="section-heading-icon">💼</div>
+                <h2>Experience<span>Work History</span></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="card float-card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Aug 2018 — Present</div>
+                        <div class="timeline-role">Embroidery Designer & Digitizer</div>
+                        <div class="timeline-company">Quilting & Embroidery Services (Pvt) Ltd</div>
+                        <div class="timeline-desc">
+                            Delivering high-quality embroidery digitizing services using Wilcom EmbroideryStudio e4.2,
+                            converting complex artwork into precise, stitch-ready files for commercial production.
+                            Manage the full digitizing workflow — from initial design analysis and manual stitch
+                            path creation to density calibration, underlay configuration, and final file output.
+                            Operate <strong style="color:var(--blue)">Tajima</strong>,
+                            <strong style="color:var(--crimson)">Barudan</strong>, and
+                            <strong style="color:var(--gold)">Singer</strong> commercial embroidery machines,
+                            ensuring consistent quality and precision across all production runs.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills & Certifications -->
+        <div class="section">
+            <div class="section-heading">
+                <div class="section-heading-icon">⚡</div>
+                <h2>Skills & Certs<span>Technical Arsenal</span></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="card float-card">
+                <div class="edu-label">Software</div>
+                <div class="tag-cloud" style="margin-bottom:1.4rem;">
+                    <span class="tag gold">Wilcom EmbroideryStudio e4.2</span>
+                    <span class="tag gold">Adobe Photoshop</span>
+                    <span class="tag gold">Microsoft Office</span>
+                </div>
+
+                <div class="edu-label">Machine Operation</div>
+                <div class="tag-cloud" style="margin-bottom:1.4rem;">
+                    <span class="tag gold">Tajima Multi-Head</span>
+                    <span class="tag gold">Barudan Multi-Head</span>
+                    <span class="tag gold">Singer Embroidery Machine</span>
+                </div>
+                <div class="edu-label">IT Skills</div>
+                <div class="tag-cloud">
+                    <span class="tag gold">Basic IT Certificate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+            <div class="section-heading">
+                <div class="section-heading-icon">🎓</div>
+                <h2>Education<span>Academic Background</span></h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="card float-card">
+                <div class="edu-label">Schools</div>
+                <div class="school-name">
+                    Harischandra National College, Negombo<br>
+                    Bolawalana Nimala Maha Vidyalaya, Negombo
+                </div>
+
+                <div class="edu-label">G.C.E. Advanced Level — 2015 & 2016</div>
+                <div class="qual-grid">
+                    <div class="qual-subject">Sinhala</div>
+                    <div class="qual-grade grade-s">S</div>
+                    <div class="qual-subject">Economics</div>
+                    <div class="qual-grade grade-s">S</div>
+                    <div class="qual-subject">Business (B.C)</div>
+                    <div class="qual-grade grade-s">S</div>
+                </div>
+
+                <div class="edu-label">G.C.E. Ordinary Level — 2012 & 2013</div>
+                <div class="qual-grid">
+                    <div class="qual-subject">Design & Technology</div>
+                    <div class="qual-grade grade-b">B</div>
+                    <div class="qual-subject">Science</div>
+                    <div class="qual-grade grade-c">C</div>
+                    <div class="qual-subject">Buddhism</div>
+                    <div class="qual-grade grade-b">B</div>
+                    <div class="qual-subject">Sinhala</div>
+                    <div class="qual-grade grade-c">C</div>
+                    <div class="qual-subject">Art</div>
+                    <div class="qual-grade grade-c">C</div>
+                    <div class="qual-subject">Mathematics</div>
+                    <div class="qual-grade grade-s">S</div>
+                    <div class="qual-subject">History</div>
+                    <div class="qual-grade grade-s">S</div>
+                    <div class="qual-subject">Business & Accounting</div>
+                    <div class="qual-grade grade-s">S</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social & Portfolio Links -->
+        <div class="section">
+            <div class="section-heading">
+                <div class="section-heading-icon">🔗</div>
+                <h2>Connect<span>Social & Portfolio</span></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="social-grid">
+                <div class="social-link">
+                    <div class="social-icon email">✉️</div>
+                    <div>
+                        <div class="social-text-label">Email</div>
+                        <div class="social-text-value">Shehan00007777@gmail.com</div>
+                    </div>
+                </div>
+                <div class="social-link">
+                    <div class="social-icon wa">💬</div>
+                    <div>
+                        <div class="social-text-label">WhatsApp / Mobile</div>
+                        <div class="social-text-value">+94 77-1519386</div>
+                    </div>
+                </div>
+                <div class="social-link">
+                    <div class="social-icon fb">📘</div>
+                    <div>
+                        <div class="social-text-label">Facebook</div>
+                        <div class="social-text-value">Add your profile link</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ── SPACE DUST PARTICLES ─────────────────────────────
+        const canvas = document.getElementById('dust');
+        const ctx = canvas.getContext('2d');
+        let W, H, pts = [];
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        for (let i = 0; i < 60; i++) {
+            pts.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                r: Math.random() * 1.4 + 0.4,
+                sx: (Math.random() - 0.5) * 0.35,
+                sy: -(Math.random() * 0.55 + 0.15),
+                a: Math.random() * 0.55 + 0.1,
+                glow: Math.random() > 0.82
+            });
+        }
+
+        function drawDust() {
+            ctx.clearRect(0, 0, W, H);
+            pts.forEach(p => {
+                p.x += p.sx; p.y += p.sy;
+                if (p.y < 0) { p.y = H; p.x = Math.random() * W; }
+                if (p.x < 0) p.x = W;
+                if (p.x > W) p.x = 0;
+                ctx.save();
+                ctx.globalAlpha = p.a;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                if (p.glow) { ctx.shadowBlur = 10; ctx.shadowColor = '#a855f7'; ctx.fillStyle = '#fff'; }
+                else { ctx.fillStyle = '#8888a8'; }
+                ctx.fill();
+                ctx.restore();
+            });
+        }
+
+
+
+        // ── MASTER LOOP ──────────────────────────────────────
+        function loop() {
+            drawDust();
+            requestAnimationFrame(loop);
+        }
+        loop();
+    </script>
+</body>
+
+</html>
